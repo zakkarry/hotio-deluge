@@ -1,11 +1,8 @@
-ARG UPSTREAM_IMAGE
-ARG UPSTREAM_DIGEST_AMD64
-
 FROM alpine:3.18 AS builder
 
 ENV PYTHON_EGG_CACHE="/config/plugins/.python-eggs" \
     TMPDIR=/run/deluged-temp
-
+ENV RPC_PORT="8080/tcp" WEBUI_PORTS="8080/tcp,8080/udp"
 # copy release version script
 COPY root/version.sh /app
 # install software
@@ -50,8 +47,6 @@ RUN \
     $HOME/.cache \
     /tmp/* \
     /app/*
-
-ARG VERSION
 
 EXPOSE 8112 58846 58946 58946/udp
 
