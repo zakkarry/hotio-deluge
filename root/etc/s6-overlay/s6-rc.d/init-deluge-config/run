@@ -5,6 +5,18 @@ if [[ ! -f /config/core.conf ]]; then
     cp /defaults/core.conf /config/core.conf
 fi
 
+if [[ ! -f /config/ltconfig.conf ]]; then
+    cp /defaults/ltconfig.conf /config/ltconfig.conf
+fi
+
+if [[ ! -f /config/trackercheck.conf ]]; then
+    cp /defaults/trackercheck.conf /config/trackercheck.conf
+fi
+if [[ ! -f /config/web.conf ]]; then
+    cp /defaults/web.conf /config/web.conf
+fi
+cp -f /defaults/plugins/*.egg /config/plugins/
+
 mkdir -p /run/deluged-temp
 
 # permissions
