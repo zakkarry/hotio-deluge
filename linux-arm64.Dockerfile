@@ -1,10 +1,10 @@
 ARG UPSTREAM_IMAGE
-ARG UPSTREAM_DIGEST_AMD64
+ARG UPSTREAM_DIGEST_ARM64
 
 # https://github.com/by275/docker-libtorrent
 FROM ghcr.io/by275/libtorrent:1-alpine3.19 AS libtorrent
 
-FROM ${UPSTREAM_IMAGE}@${UPSTREAM_DIGEST_AMD64}
+FROM ${UPSTREAM_IMAGE}@${UPSTREAM_DIGEST_ARM64}
 
 ENV VIRTUAL_ENV="${APP_DIR}/venv"
 COPY --from=libtorrent /libtorrent-build/usr/lib/libtorrent-rasterbar.* /usr/lib/

@@ -1,0 +1,20 @@
+# shellcheck shell=bash
+until pidof deluged > /dev/null; do
+    sleep 1
+done
+
+set_config() {
+    deluge-console -c "${CONFIG_DIR}" config -s "$@" 2>/dev/null
+}
+
+if grep -q "successfully" <<< "$(set_config listen_ports \(${port}, ${port}\))"; then
+    echo "[INF] [$(date '+%Y-%m-%d %H:%M:%S')] [DELUGE] Updated forwarded port to [${port}]."
+
+    for property in random_port upnp natpmp; do
+        if ! grep -q "successfully" <<< "$(set_config ${property} false)"; then
+            echo "[WRN] [$(date '+%Y-%m-%d %H:%M:%S')] [DELUGE] Unable to disable ${property}, \"deluge-console\" rejected"
+        fi
+    done
+else
+    echo "[ERR] [$(date '+%Y-%m-%d %H:%M:%S')] [DELUGE] Unable to set listen_ports, \"deluge-console\" rejected"
+fi
